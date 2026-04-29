@@ -47,7 +47,46 @@ function CornerOrnament({ className = "" }: { className?: string }) {
 
 export default function HeroInvitation() {
   const rootRef = useRef<HTMLElement | null>(null);
+  const scrollAnimationRef = useRef<number | null>(null);
   const prefersReducedMotion = useReducedMotionPreference();
+
+  const revealInvitation = () => {
+    const root = rootRef.current;
+    if (!root) {
+      return;
+    }
+
+    if (scrollAnimationRef.current !== null) {
+      window.cancelAnimationFrame(scrollAnimationRef.current);
+    }
+
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const targetY = Math.min(root.offsetTop + root.offsetHeight - window.innerHeight, maxScroll);
+    const startY = window.scrollY;
+    const distance = targetY - startY;
+
+    if (Math.abs(distance) < 2 || prefersReducedMotion) {
+      window.scrollTo(0, targetY);
+      return;
+    }
+
+    const startedAt = window.performance.now();
+    const duration = 1500;
+    const easeOutCubic = (progress: number) => 1 - Math.pow(1 - progress, 3);
+
+    const step = (now: number) => {
+      const progress = Math.min((now - startedAt) / duration, 1);
+      window.scrollTo(0, startY + distance * easeOutCubic(progress));
+
+      if (progress < 1) {
+        scrollAnimationRef.current = window.requestAnimationFrame(step);
+      } else {
+        scrollAnimationRef.current = null;
+      }
+    };
+
+    scrollAnimationRef.current = window.requestAnimationFrame(step);
+  };
 
   useEffect(() => {
     if (!rootRef.current || prefersReducedMotion) {
@@ -101,6 +140,14 @@ export default function HeroInvitation() {
     return () => ctx.revert();
   }, [prefersReducedMotion]);
 
+  useEffect(() => {
+    return () => {
+      if (scrollAnimationRef.current !== null) {
+        window.cancelAnimationFrame(scrollAnimationRef.current);
+      }
+    };
+  }, []);
+
   return (
     <section
       id="hero"
@@ -150,15 +197,20 @@ export default function HeroInvitation() {
           </div>
 
           <div className="absolute inset-x-0 top-[58%] z-[65] flex justify-center">
-            <div className="envelope-seal flex h-16 w-16 items-center justify-center rounded-full border border-[rgba(255,250,247,0.78)] bg-[linear-gradient(145deg,#e8cb91,#b9883f)] shadow-[0_16px_36px_rgba(78,61,66,0.24),inset_0_0_0_5px_rgba(255,250,247,0.17)] sm:h-20 sm:w-20">
+            <button
+              type="button"
+              onClick={revealInvitation}
+              className="envelope-seal light-focus flex h-16 w-16 items-center justify-center rounded-full border border-[rgba(255,250,247,0.78)] bg-[linear-gradient(145deg,#e8cb91,#b9883f)] shadow-[0_16px_36px_rgba(78,61,66,0.24),inset_0_0_0_5px_rgba(255,250,247,0.17)] transition-transform duration-300 hover:scale-105 sm:h-20 sm:w-20"
+              aria-label="Reveal wedding invitation"
+            >
               <span className="font-display text-[9px] font-semibold uppercase tracking-[0.18em] text-[rgba(70,42,20,0.78)]">
                 RSVP
               </span>
-            </div>
+            </button>
           </div>
         </div>
 
-        <div className="absolute inset-0 z-20 grid place-items-center px-4 py-5">
+        <div className="pointer-events-none absolute inset-0 z-20 grid place-items-center px-4 py-5">
           <article
             className={`wedding-card relative flex h-[min(84svh,620px)] w-[min(90vw,430px)] flex-col items-center justify-center overflow-hidden rounded-[28px] border border-[rgba(217,182,176,0.62)] bg-[rgba(255,253,251,0.985)] px-7 py-8 text-center opacity-0 shadow-[0_24px_78px_rgba(78,61,66,0.18)] ${
               prefersReducedMotion ? "opacity-100" : ""
@@ -208,18 +260,10 @@ export default function HeroInvitation() {
 
               <div className="card-reveal mt-9 flex w-full flex-col gap-3">
                 <motion.a
-                  href="#countdown"
-                  className="light-focus rounded-full bg-[linear-gradient(90deg,#eee1cf,#d8c5aa)] px-6 py-3 font-body text-[12px] font-semibold uppercase tracking-[0.16em] text-[var(--plum)] shadow-[0_12px_28px_rgba(78,61,66,0.12)]"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  View details
-                </motion.a>
-                <motion.a
                   href={wedding.mapsUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="light-focus rounded-full border border-[rgba(78,61,66,0.18)] bg-[rgba(255,250,247,0.68)] px-6 py-3 font-body text-[12px] font-semibold uppercase tracking-[0.16em] text-[rgba(78,61,66,0.7)]"
+                  className="light-focus pointer-events-auto rounded-full border border-[rgba(78,61,66,0.18)] bg-[rgba(255,250,247,0.68)] px-6 py-3 font-body text-[12px] font-semibold uppercase tracking-[0.16em] text-[rgba(78,61,66,0.7)]"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                 >
