@@ -10,8 +10,8 @@ function GoldCorner({ className = "" }: { className?: string }) {
   return (
     <svg
       className={className}
-      width="72"
-      height="72"
+      width="56"
+      height="56"
       viewBox="0 0 72 72"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -91,8 +91,8 @@ export default function HeroInvitation() {
     if (!rootRef.current || prefersReducedMotion) return undefined;
 
     const ctx = gsap.context(() => {
-      gsap.set(".wedding-card", { y: 36, opacity: 0 });
-      gsap.set(".card-reveal", { y: 16, opacity: 0 });
+      gsap.set(".wedding-card", { y: 28, opacity: 0 });
+      gsap.set(".card-reveal", { y: 14, opacity: 0 });
       gsap.set(".envelope-top-flap", {
         rotateX: 0,
         transformPerspective: 1200,
@@ -118,7 +118,7 @@ export default function HeroInvitation() {
         .to(".envelope-bottom-pocket", { yPercent: 42, opacity: 0.22, duration: 0.72 }, 0.2)
         .to(".envelope-shell", { opacity: 0, duration: 0.58 }, 0.36)
         .to(".wedding-card", { y: 0, opacity: 1, duration: 0.82 }, 0.42)
-        .to(".card-reveal", { y: 0, opacity: 1, stagger: 0.07, duration: 0.42 }, 0.72)
+        .to(".card-reveal", { y: 0, opacity: 1, stagger: 0.06, duration: 0.42 }, 0.72)
         .to(".hero-scroll-hint", { opacity: 0, y: 16, duration: 0.25 }, 0.25);
 
       gsap.utils.toArray<HTMLElement>(".hero-petal").forEach((petal, index) => {
@@ -153,19 +153,23 @@ export default function HeroInvitation() {
     >
       <div className="sticky top-0 h-[100dvh] min-h-[100svh] overflow-hidden">
 
-        {/* Background photo */}
+        {/* Portrait background — anchored top so subjects stay in frame */}
         <div
-          className="absolute inset-0 bg-[url('/bg.webp')] bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-[url('/bg-full.webp')] bg-cover bg-top bg-no-repeat"
           aria-hidden="true"
         />
-        {/* Premium dark overlay — rich and cinematic */}
+
+        {/*
+          Mobile gradient: light at top (couple visible) → dark at bottom (text area).
+          Desktop: even cinematic overlay since landscape crops the portrait image.
+        */}
         <div
-          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,2,0,0.92)_0%,rgba(8,4,1,0.72)_35%,rgba(8,4,1,0.76)_65%,rgba(4,2,0,0.94)_100%)]"
+          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,2,0,0.22)_0%,rgba(4,2,0,0.14)_28%,rgba(4,2,0,0.52)_56%,rgba(4,2,0,0.91)_80%,rgba(2,1,0,0.97)_100%)] sm:bg-[linear-gradient(180deg,rgba(4,2,0,0.72)_0%,rgba(8,4,1,0.55)_35%,rgba(8,4,1,0.60)_65%,rgba(4,2,0,0.92)_100%)]"
           aria-hidden="true"
         />
-        {/* Edge vignette */}
+        {/* Side vignette only — keeps centre clean on mobile */}
         <div
-          className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_50%,transparent_30%,rgba(0,0,0,0.68)_100%)]"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_110%_70%_at_50%_80%,transparent_35%,rgba(0,0,0,0.48)_100%)] sm:bg-[radial-gradient(ellipse_80%_80%_at_50%_50%,transparent_30%,rgba(0,0,0,0.62)_100%)]"
           aria-hidden="true"
         />
 
@@ -184,111 +188,115 @@ export default function HeroInvitation() {
           <FloatingPetal className="hero-petal absolute bottom-[24%] left-[14%] z-[55] h-5 w-4 rotate-6 opacity-55" />
           <FloatingPetal className="hero-petal absolute bottom-[19%] right-[14%] z-[55] h-5 w-4 -rotate-6 opacity-55" />
 
-          <div className="absolute inset-x-0 top-[28%] z-[60] flex justify-center px-6 md:top-[30%]">
-            <div className="envelope-copy flex w-full max-w-[360px] flex-col items-center text-center">
-              <p className="font-body text-[9px] font-semibold uppercase tracking-[0.24em] text-[rgba(78,61,66,0.48)] sm:text-[10px]">
+          <div className="absolute inset-x-0 top-[26%] z-[60] flex justify-center px-6">
+            <div className="envelope-copy flex w-full max-w-[340px] flex-col items-center text-center">
+              <p className="font-body text-[9px] font-semibold uppercase tracking-[0.24em] text-[rgba(78,61,66,0.48)]">
                 Together with their families
               </p>
-              <p className="mt-5 font-script text-[58px] leading-none text-[var(--plum)] drop-shadow-[0_1px_0_rgba(255,255,255,0.72)] sm:text-[76px]">
+              <p className="mt-4 font-script text-[54px] leading-none text-[var(--plum)] drop-shadow-[0_1px_0_rgba(255,255,255,0.72)] sm:text-[68px]">
                 {wedding.brideFirst}
               </p>
-              <span className="-my-1 font-display text-[26px] italic leading-none text-[rgba(78,61,66,0.62)]">
+              <span className="-my-1 font-display text-[24px] italic leading-none text-[rgba(78,61,66,0.62)]">
                 &
               </span>
-              <p className="font-script text-[58px] leading-none text-[var(--plum)] drop-shadow-[0_1px_0_rgba(255,255,255,0.72)] sm:text-[76px]">
+              <p className="font-script text-[54px] leading-none text-[var(--plum)] drop-shadow-[0_1px_0_rgba(255,255,255,0.72)] sm:text-[68px]">
                 {wedding.groomFirst}
               </p>
-              <p className="mt-8 font-body text-[10px] font-semibold uppercase tracking-[0.26em] text-[rgba(78,61,66,0.48)]">
+              <p className="mt-6 font-body text-[9px] font-semibold uppercase tracking-[0.26em] text-[rgba(78,61,66,0.48)]">
                 {wedding.date}
               </p>
             </div>
           </div>
 
-          <div className="absolute inset-x-0 top-[58%] z-[65] flex justify-center">
+          <div className="absolute inset-x-0 top-[60%] z-[65] flex justify-center">
             <button
               type="button"
               onClick={revealInvitation}
-              className="envelope-seal light-focus flex h-16 w-16 items-center justify-center rounded-full border border-[rgba(255,250,247,0.78)] bg-[linear-gradient(145deg,#e8cb91,#b9883f)] shadow-[0_16px_36px_rgba(78,61,66,0.24),inset_0_0_0_5px_rgba(255,250,247,0.17)] transition-transform duration-300 hover:scale-105 sm:h-20 sm:w-20"
+              className="envelope-seal light-focus flex h-14 w-14 items-center justify-center rounded-full border border-[rgba(255,250,247,0.78)] bg-[linear-gradient(145deg,#e8cb91,#b9883f)] shadow-[0_16px_36px_rgba(78,61,66,0.24),inset_0_0_0_4px_rgba(255,250,247,0.17)] transition-transform duration-300 hover:scale-105 sm:h-18 sm:w-18"
               aria-label="Reveal wedding invitation"
             >
-              <span className="font-display text-[9px] font-semibold uppercase tracking-[0.18em] text-[rgba(70,42,20,0.78)]">
+              <span className="font-display text-[8px] font-semibold uppercase tracking-[0.18em] text-[rgba(70,42,20,0.78)]">
                 Open
               </span>
             </button>
           </div>
         </div>
 
-        {/* Revealed content — floats over the dark background photo */}
-        <div className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center px-6">
+        {/*
+          Revealed content overlay.
+          Mobile: pinned to bottom so text sits below the couple in the portrait photo.
+          sm+: centered for landscape/tablet layouts.
+        */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-col items-center justify-end pb-10 sm:inset-0 sm:justify-center sm:pb-0">
           <article
-            className={`wedding-card pointer-events-auto relative flex flex-col items-center text-center ${
+            className={`wedding-card pointer-events-auto relative flex w-full max-w-[360px] flex-col items-center px-6 text-center sm:max-w-[420px] sm:px-8 ${
               prefersReducedMotion ? "opacity-100" : "opacity-0"
             }`}
           >
-            {/* Gold corner ornaments */}
-            <GoldCorner className="pointer-events-none absolute -left-8 -top-8 opacity-80 sm:-left-12 sm:-top-12" />
-            <GoldCorner className="pointer-events-none absolute -bottom-8 -right-8 rotate-180 opacity-80 sm:-bottom-12 sm:-right-12" />
+            {/* Gold corners — hidden on mobile to keep it clean, visible sm+ */}
+            <GoldCorner className="pointer-events-none absolute -left-2 -top-6 hidden opacity-75 sm:block sm:-left-8 sm:-top-8" />
+            <GoldCorner className="pointer-events-none absolute -bottom-6 -right-2 hidden rotate-180 opacity-75 sm:block sm:-bottom-8 sm:-right-8" />
 
-            {/* Thin gold rule + label */}
-            <div className="card-reveal mb-7 flex items-center gap-4">
-              <div className="h-px w-10 bg-[linear-gradient(90deg,transparent,rgba(201,168,124,0.5))] sm:w-14" />
-              <p className="font-body text-[8px] font-semibold uppercase tracking-[0.32em] text-[rgba(201,168,124,0.72)] sm:text-[9px]">
+            {/* Label */}
+            <div className="card-reveal mb-5 flex items-center gap-3 sm:mb-7 sm:gap-4">
+              <div className="h-px w-8 bg-[linear-gradient(90deg,transparent,rgba(201,168,124,0.5))] sm:w-12" />
+              <p className="font-body text-[8px] font-semibold uppercase tracking-[0.3em] text-[rgba(201,168,124,0.7)]">
                 Wedding Invitation
               </p>
-              <div className="h-px w-10 bg-[linear-gradient(90deg,rgba(201,168,124,0.5),transparent)] sm:w-14" />
+              <div className="h-px w-8 bg-[linear-gradient(90deg,rgba(201,168,124,0.5),transparent)] sm:w-12" />
             </div>
 
             {/* Names */}
-            <h1 className="card-reveal flex flex-col items-center gap-0.5">
-              <span className="font-script text-[72px] leading-none text-white [text-shadow:0_4px_32px_rgba(201,168,124,0.22)] sm:text-[96px] md:text-[112px]">
+            <h1 className="card-reveal flex flex-col items-center">
+              <span className="font-script text-[64px] leading-none text-white [text-shadow:0_3px_24px_rgba(201,168,124,0.2)] sm:text-[88px] md:text-[104px]">
                 {wedding.brideFirst}
               </span>
-              <span className="font-display text-[26px] italic leading-none text-[rgba(201,168,124,0.7)] sm:text-[30px]">
+              <span className="font-display text-[22px] italic leading-none text-[rgba(201,168,124,0.68)] sm:text-[28px]">
                 &
               </span>
-              <span className="font-script text-[72px] leading-none text-white [text-shadow:0_4px_32px_rgba(201,168,124,0.22)] sm:text-[96px] md:text-[112px]">
+              <span className="font-script text-[64px] leading-none text-white [text-shadow:0_3px_24px_rgba(201,168,124,0.2)] sm:text-[88px] md:text-[104px]">
                 {wedding.groomFirst}
               </span>
             </h1>
 
-            {/* Floral divider — brightened for dark bg */}
-            <div className="card-reveal mt-8 opacity-70 [filter:brightness(1.6)_saturate(0.5)]">
+            {/* Floral divider */}
+            <div className="card-reveal mt-5 opacity-65 [filter:brightness(1.7)_saturate(0.45)] sm:mt-7">
               <FloralDivider />
             </div>
 
             {/* Date */}
-            <div className="card-reveal mt-8 space-y-1.5">
-              <p className="font-body text-[9px] font-semibold uppercase tracking-[0.3em] text-[rgba(201,168,124,0.78)] sm:text-[10px]">
+            <div className="card-reveal mt-5 space-y-1 sm:mt-7 sm:space-y-1.5">
+              <p className="font-body text-[9px] font-semibold uppercase tracking-[0.28em] text-[rgba(201,168,124,0.76)]">
                 {wedding.date}
               </p>
-              <p className="font-display text-[20px] italic leading-snug text-[rgba(255,250,247,0.68)] sm:text-[23px]">
+              <p className="font-display text-[18px] italic leading-snug text-[rgba(255,250,247,0.65)] sm:text-[21px]">
                 {wedding.dateLong}
               </p>
             </div>
 
             {/* Venue */}
-            <div className="card-reveal mt-5 flex items-start justify-center gap-2 text-center">
-              <MapPin size={13} className="mt-[3px] shrink-0 text-[rgba(217,182,176,0.75)]" aria-hidden="true" />
-              <p className="font-body text-[10px] font-medium uppercase leading-[1.9] tracking-[0.14em] text-[rgba(255,250,247,0.48)] sm:text-[11px]">
+            <div className="card-reveal mt-4 flex items-start justify-center gap-1.5 text-center sm:mt-5">
+              <MapPin size={12} className="mt-[3px] shrink-0 text-[rgba(217,182,176,0.7)]" aria-hidden="true" />
+              <p className="font-body text-[10px] font-medium uppercase leading-[1.8] tracking-[0.13em] text-[rgba(255,250,247,0.45)]">
                 {wedding.venue}
                 <span className="block">{wedding.city}</span>
               </p>
             </div>
 
-            {/* Thin rule before CTA */}
-            <div className="card-reveal mt-8 h-px w-24 bg-[linear-gradient(90deg,transparent,rgba(201,168,124,0.3),transparent)]" />
+            {/* Divider rule */}
+            <div className="card-reveal mt-6 h-px w-20 bg-[linear-gradient(90deg,transparent,rgba(201,168,124,0.28),transparent)] sm:mt-8" />
 
             {/* CTA */}
-            <div className="card-reveal mt-6">
+            <div className="card-reveal mt-5 sm:mt-6">
               <motion.a
                 href={wedding.mapsUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,124,0.35)] px-8 py-3 font-body text-[10px] font-semibold uppercase tracking-[0.2em] text-[rgba(201,168,124,0.82)] backdrop-blur-[2px] transition-all duration-300 hover:border-[rgba(201,168,124,0.62)] hover:bg-[rgba(201,168,124,0.07)] hover:text-[rgba(240,217,191,1)] sm:text-[11px]"
+                className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,124,0.33)] px-7 py-2.5 font-body text-[10px] font-semibold uppercase tracking-[0.2em] text-[rgba(201,168,124,0.8)] backdrop-blur-[2px] transition-all duration-300 hover:border-[rgba(201,168,124,0.6)] hover:bg-[rgba(201,168,124,0.07)] hover:text-[rgba(240,217,191,1)] sm:px-8 sm:py-3"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
-                <MapPin size={12} aria-hidden="true" />
+                <MapPin size={11} aria-hidden="true" />
                 View on Maps
               </motion.a>
             </div>
@@ -296,15 +304,15 @@ export default function HeroInvitation() {
         </div>
 
         {/* Scroll hint */}
-        <div className="absolute inset-x-0 bottom-6 z-40 flex justify-center">
-          <div className="hero-scroll-hint flex flex-col items-center text-[rgba(201,168,124,0.52)]">
-            <span className="h-7 w-px bg-[rgba(201,168,124,0.28)]" />
+        <div className="absolute inset-x-0 bottom-3 z-40 flex justify-center sm:bottom-6">
+          <div className="hero-scroll-hint flex flex-col items-center text-[rgba(201,168,124,0.48)]">
+            <span className="h-6 w-px bg-[rgba(201,168,124,0.25)] sm:h-7" />
             <motion.span
-              animate={{ y: [0, 6, 0] }}
+              animate={{ y: [0, 5, 0] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
               aria-hidden="true"
             >
-              <ChevronDown size={18} />
+              <ChevronDown size={16} />
             </motion.span>
             <span className="sr-only">Scroll to open invitation</span>
           </div>
