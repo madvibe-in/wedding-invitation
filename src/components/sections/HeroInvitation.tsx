@@ -189,7 +189,7 @@ export default function HeroInvitation() {
       {/* ── Revealed content — overlays the bg image directly ── */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-col items-center justify-end pb-10 sm:inset-0 sm:justify-center sm:pb-0">
         <article
-          className={`wedding-card pointer-events-auto relative flex w-full max-w-[360px] flex-col items-center px-6 text-center sm:max-w-[420px] sm:px-8 ${
+          className={`wedding-card relative flex w-full max-w-[360px] flex-col items-center px-6 text-center sm:max-w-[420px] sm:px-8 ${
             prefersReducedMotion ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -252,7 +252,7 @@ export default function HeroInvitation() {
               href={wedding.mapsUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,124,0.33)] px-7 py-2.5 font-body text-[10px] font-semibold uppercase tracking-[0.2em] text-[rgba(201,168,124,0.8)] backdrop-blur-[2px] transition-all duration-300 hover:border-[rgba(201,168,124,0.6)] hover:bg-[rgba(201,168,124,0.07)] hover:text-[rgba(240,217,191,1)] sm:px-8 sm:py-3"
+              className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,124,0.33)] px-7 py-2.5 font-body text-[10px] font-semibold uppercase tracking-[0.2em] text-[rgba(201,168,124,0.8)] backdrop-blur-[2px] transition-all duration-300 hover:border-[rgba(201,168,124,0.6)] hover:bg-[rgba(201,168,124,0.07)] hover:text-[rgba(240,217,191,1)] sm:px-8 sm:py-3"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
