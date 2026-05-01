@@ -160,12 +160,12 @@ export default function HeroInvitation() {
         />
         {/* Premium dark overlay — rich and cinematic */}
         <div
-          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,4,1,0.84)_0%,rgba(14,7,2,0.52)_35%,rgba(14,7,2,0.56)_65%,rgba(8,4,1,0.88)_100%)]"
+          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,2,0,0.92)_0%,rgba(8,4,1,0.72)_35%,rgba(8,4,1,0.76)_65%,rgba(4,2,0,0.94)_100%)]"
           aria-hidden="true"
         />
         {/* Edge vignette */}
         <div
-          className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_50%,transparent_40%,rgba(0,0,0,0.5)_100%)]"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_50%,transparent_30%,rgba(0,0,0,0.68)_100%)]"
           aria-hidden="true"
         />
 
